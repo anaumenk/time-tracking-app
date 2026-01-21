@@ -14,11 +14,11 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONT_URL || 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
-  await app.listen(3001);
+  await app.listen(process.env.SERVER_PORT ?? 3001);
 }
 bootstrap();

@@ -52,6 +52,8 @@ The response returns a flat list; grouping and calculations are performed on the
    # USER — PostgreSQL user and password if necessarily
    # time_tracker — database name
    echo DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/time_tracker" > .env
+   echo SERVER_PORT=3001 > .env
+   echo FRONT_URL='http://localhost:3000' > .env
    # Generate Prisma client and apply migrations:
    npx prisma generate
    npx prisma migrate dev --name init
