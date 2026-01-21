@@ -76,7 +76,7 @@ export const TimeEntryForm = ({ onSaved }: Props) => {
           type="number"
           min={0.1}
           step={0.1}
-          value={hours}
+          value={isNaN(hours) ? "" : hours}
           onChange={(e) => setHours(parseFloat(e.target.value))}
         />
       </div>
