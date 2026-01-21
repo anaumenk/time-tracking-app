@@ -1,4 +1,11 @@
-export type Project = "Onboarding" | "Client A" | "Client B" | "Personal Development";
+export const PROJECTS = [
+  "Viso Internal",
+  "Client A",
+  "Client B",
+  "Personal Development",
+] as const;
+
+export type Project = typeof PROJECTS[number];
 
 export interface TimeEntry {
   id: string;

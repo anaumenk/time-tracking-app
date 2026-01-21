@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Project, TimeEntry } from "../types/entry";
+import { useState, FormEvent } from "react";
+import { Project, TimeEntry, PROJECTS } from "../types/entry";
 import { api } from "../services/api";
 
 interface Props {
@@ -10,13 +10,13 @@ interface Props {
 
 export const TimeEntryForm = ({ onSaved }: Props) => {
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
-  const [project, setProject] = useState<Project>("Onboarding");
+  const [project, setProject] = useState<Project>(PROJECTS[0]);
   const [hours, setHours] = useState<number>(0);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!hours || hours <= 0) {
       setError("Hours must be greater than 0");
@@ -33,7 +33,6 @@ export const TimeEntryForm = ({ onSaved }: Props) => {
     try {
       const newEntry = await api.createEntry({ date, project, hours, description });
       onSaved(newEntry);
-      // reset form
       setHours(0);
       setDescription("");
     } catch (err: any) {
@@ -62,10 +61,11 @@ export const TimeEntryForm = ({ onSaved }: Props) => {
           value={project}
           onChange={(e) => setProject(e.target.value as Project)}
         >
-          <option value="Viso Internal">Viso Internal</option>
-          <option value="Client A">Client A</option>
-          <option value="Client B">Client B</option>
-          <option value="Personal Development">Personal Development</option>
+          {PROJECTS.map((project) => (
+            <option key={project} value={project}>
+              {project}
+            </option>
+          ))}
         </select>
       </div>
 

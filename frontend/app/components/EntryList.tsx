@@ -17,11 +17,14 @@ export const EntryList = () => {
 
   const grouped = useMemo(() => {
     const map: Record<string, TimeEntry[]> = {};
-    entries.forEach(e => {
+    entries.forEach((e) => {
       if (!map[e.date]) map[e.date] = [];
       map[e.date].push(e);
     });
-    return map;
+    return Object.entries(map)
+      .sort(([dateA], [dateB]) => {
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+      });
   }, [entries]);
 
   const grandTotal = useMemo(() => entries.reduce((sum, e) => sum + e.hours, 0), [entries]);
@@ -30,7 +33,7 @@ export const EntryList = () => {
 
   return (
     <div className="space-y-6">
-      {Object.entries(grouped).map(([date, dayEntries]) => (
+      {grouped.map(([date, dayEntries]) => (
         <DayGroup key={date} date={date} entries={dayEntries} />
       ))}
 
